@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "D:\jarvis_ai\server.py", line 60, in websocket_endpoint
+    import vector_memory
+  File "D:\jarvis_ai\vector_memory.py", line 2, in <module>
+    import chromadb
+ModuleNotFoundError: No module named 'chromadb'

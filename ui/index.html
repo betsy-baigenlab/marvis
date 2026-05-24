@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JARVIS — AI Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Ambient background rings -->
+  <div class="bg-rings">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+  </div>
+
+  <!-- HUD grid lines overlay -->
+  <div class="grid-overlay"></div>
+
+  <div class="hud-container">
+
+    <!-- Header -->
+    <header class="hud-header">
+      <div class="logo-block">
+        <div class="arc-icon">
+          <div class="arc-inner"></div>
+        </div>
+        <div>
+          <h1 class="title">J.A.R.V.I.S</h1>
+          <p class="subtitle">Just A Rather Very Intelligent System</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="status-pill" id="statusPill">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">ONLINE</span>
+        </div>
+        <button class="icon-btn" onclick="clearMemory()" title="Clear Memory">⟳ MEMORY</button>
+      </div>
+    </header>
+
+    <!-- Divider -->
+    <div class="hud-divider"></div>
+
+    <!-- Chat panel -->
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-inner" id="chatInner">
+        <div class="msg jarvis-msg">
+          <span class="msg-label">JARVIS</span>
+          <div class="bubble">Hello. I am J.A.R.V.I.S. How may I assist you today?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input bar -->
+    <div class="input-bar">
+      <div class="input-wrap">
+        <input
+          type="text"
+          id="textInput"
+          placeholder="Type a command or click the mic..."
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') sendText()"
+        />
+        <button class="send-btn" onclick="sendText()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <button class="mic-btn" id="micBtn" onclick="startListening()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" y1="19" x2="12" y2="23"></line>
+          <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="hud-footer">
+      <span>STARK INDUSTRIES — PRIVATE AI SYSTEM</span>
+      <span id="clock"></span>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -29,7 +29,7 @@ async def analyze_screen() -> str:
         api_key=api_key
     )
     
-    prompt = "You are Jarvis. Describe what is currently visible on this computer screen. Keep it brief, conversational, and helpful. Do not use markdown."
+    prompt = "You are Marvis. Describe what is currently visible on this computer screen. Keep it brief, conversational, and helpful. Do not use markdown."
     
     try:
         response = await client.chat.completions.create(

@@ -15,7 +15,7 @@ def get_system_prompt_with_realtime() -> str:
     """Generate system prompt with REAL-TIME current time and action capabilities."""
     current_time = get_current_time_info()
     
-    return f"""You are Jarvis, an intelligent voice assistant powered by DeepSeek V3.
+    return f"""You are Marvis, an intelligent voice assistant powered by DeepSeek V3.
 You are FULLY AUTONOMOUS and make ALL decisions about what actions to take.
 
 ════════════════════════════════════════

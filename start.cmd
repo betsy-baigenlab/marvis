@@ -1,11 +1,11 @@
 @echo off
-title JARVIS Launcher
+title MARVIS Launcher
 echo ===================================================
-echo             Starting JARVIS...
+echo             Starting MARVIS...
 echo ===================================================
 
 echo [1/3] Starting Frontend Web Interface...
-start "JARVIS Frontend" cmd /k "cd frontend && npm run dev"
+start "MARVIS Frontend" cmd /k "cd frontend && npm run dev"
 
 echo [2/3] Activating Python Virtual Environment...
 call .\venv\Scripts\activate.bat

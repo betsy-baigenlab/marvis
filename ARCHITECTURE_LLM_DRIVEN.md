@@ -1,7 +1,7 @@
-# JARVIS AI - 100% LLM-DRIVEN ARCHITECTURE
+# MARVIS AI - 100% LLM-DRIVEN ARCHITECTURE
 
 ## Overview
-Jarvis AI has been completely restructured to operate **EXCLUSIVELY through DeepSeek V3 LLM** with **ZERO keyword-based logic**. Every decision, every action, every response is now driven by the intelligent decision-making of the LLM.
+Marvis AI has been completely restructured to operate **EXCLUSIVELY through DeepSeek V3 LLM** with **ZERO keyword-based logic**. Every decision, every action, every response is now driven by the intelligent decision-making of the LLM.
 
 ---
 
@@ -59,7 +59,7 @@ ADVANTAGE: Fully autonomous, intelligent, flexible, no keyword limits
 
 ```python
 SYSTEM_PROMPT = """
-You are Jarvis, FULLY AUTONOMOUS and make ALL decisions:
+You are Marvis, FULLY AUTONOMOUS and make ALL decisions:
 - Answer ANY question
 - DECIDE if you need to fetch emails
 - WRITE emails without asking
@@ -203,7 +203,7 @@ Response returned immediately
 ## System Startup Output
 ```
 ================================================================================
-[>>>] JARVIS AI - 100% LLM-DRIVEN ARCHITECTURE [<<<]
+[>>>] MARVIS AI - 100% LLM-DRIVEN ARCHITECTURE [<<<]
 ================================================================================
 Server Time: 10:58:10 PM | Date: Friday, April 24, 2026
 Timezone: IST (UTC+5:30)
@@ -272,4 +272,4 @@ Try in UI:
 ✅ **Action Token System**
 ✅ **Production Ready**
 
-The Jarvis AI system is now a **fully intelligent voice assistant** powered by **DeepSeek V3**, operating with complete autonomy and no hardcoded keyword matching.
+The Marvis AI system is now a **fully intelligent voice assistant** powered by **DeepSeek V3**, operating with complete autonomy and no hardcoded keyword matching.

@@ -1,5 +1,5 @@
 """
-TTS module for Jarvis.
+TTS module for Marvis.
 Spawns a fresh subprocess for each speak() call to avoid pyttsx3/sapi5
 COM context issues when called from an imported module on Windows.
 Every response is ALWAYS printed (text) AND spoken (voice).
@@ -15,7 +15,7 @@ def speak(text):
     global is_speaking
 
     # 1. Always print
-    print("JARVIS:", text)
+    print("MARVIS:", text)
 
     # 2. Always speak — via isolated subprocess to guarantee sapi5 works
     try:

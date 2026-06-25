@@ -1,10 +1,10 @@
-# 🧠 JARVIS PERSONAL AI ASSISTANT — COMPLETE DETAILED PLAN
+# 🧠 MARVIS PERSONAL AI ASSISTANT — COMPLETE DETAILED PLAN
 
 ---
 
 ## 🎯 PROJECT OBJECTIVE
 
-Build a **production-level voice-enabled personal AI assistant (Jarvis)** that:
+Build a **production-level voice-enabled personal AI assistant (Marvis)** that:
 
 * 🎤 Listens to voice input
 * 🧠 Understands intent using LLM
@@ -51,7 +51,7 @@ Voice Output + Text Output
 ## ✅ Implementation Standard
 
 ```python
-print("JARVIS:", response)
+print("MARVIS:", response)
 speak(response)
 ```
 
@@ -69,8 +69,8 @@ speak(response)
 ## 🎯 Expected Behavior
 
 ```text
-JARVIS: The time is 01:54 PM
-🔊 (Jarvis speaks it clearly)
+MARVIS: The time is 01:54 PM
+🔊 (Marvis speaks it clearly)
 🎤 Listening...
 ```
 
@@ -161,7 +161,7 @@ Convert text → voice output
 
 ```python
 def speak(text):
-    print("JARVIS:", text)
+    print("MARVIS:", text)
     engine.stop()
     engine.say(text)
     engine.runAndWait()
@@ -192,7 +192,7 @@ Understand commands and generate responses
 ## Prompt Design
 
 ```text
-You are Jarvis, a helpful personal assistant.
+You are Marvis, a helpful personal assistant.
 Respond clearly and concisely.
 Make responses suitable for voice output.
 ```
@@ -264,7 +264,7 @@ Listen → Process → Execute → Speak → Repeat
 
 ## Goal
 
-Jarvis remembers conversations
+Marvis remembers conversations
 
 ---
 
@@ -298,7 +298,7 @@ memory = [
 
 ## Goal
 
-Jarvis reads and summarizes emails
+Marvis reads and summarizes emails
 
 ---
 
@@ -332,7 +332,7 @@ Jarvis reads and summarizes emails
 ## Example
 
 ```text
-JARVIS: You have 5 new emails. 2 are important. One from your manager about a meeting.
+MARVIS: You have 5 new emails. 2 are important. One from your manager about a meeting.
 ```
 
 ---
@@ -369,13 +369,13 @@ LLM decides:
 
 ## Goal
 
-Make Jarvis feel natural
+Make Marvis feel natural
 
 ---
 
 ## Features
 
-* Wake word (“Jarvis”)
+* Wake word (“Marvis”)
 * Interrupt speech
 * Continuous conversation
 
@@ -407,7 +407,7 @@ Make Jarvis feel natural
 # 📁 PROJECT STRUCTURE
 
 ```text
-jarvis/
+marvis/
 │
 ├── main.py
 ├── stt.py
@@ -435,7 +435,7 @@ jarvis/
 
 # 🚀 FINAL SYSTEM CAPABILITIES
 
-Jarvis will:
+Marvis will:
 
 ✔ Speak + display responses
 ✔ Understand natural language

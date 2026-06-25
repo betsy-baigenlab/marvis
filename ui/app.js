@@ -21,7 +21,7 @@ function addMessage(who, text) {
   const panel = document.getElementById("chatInner");
 
   const wrapper = document.createElement("div");
-  wrapper.className = `msg ${who === "YOU" ? "user-msg" : "jarvis-msg"}`;
+  wrapper.className = `msg ${who === "YOU" ? "user-msg" : "marvis-msg"}`;
 
   const label = document.createElement("span");
   label.className = "msg-label";
@@ -41,12 +41,12 @@ function addMessage(who, text) {
 function addTyping() {
   const panel = document.getElementById("chatInner");
   const wrapper = document.createElement("div");
-  wrapper.className = "msg jarvis-msg";
+  wrapper.className = "msg marvis-msg";
   wrapper.id = "typingIndicator";
 
   const label = document.createElement("span");
   label.className = "msg-label";
-  label.textContent = "JARVIS";
+  label.textContent = "MARVIS";
 
   const bubble = document.createElement("div");
   bubble.className = "bubble typing-bubble";
@@ -87,14 +87,14 @@ async function sendCommand(text) {
     removeTyping();
 
     if (data.response) {
-      addMessage("JARVIS", data.response);
+      addMessage("MARVIS", data.response);
     }
 
     setStatus("ONLINE");
 
   } catch (err) {
     removeTyping();
-    addMessage("JARVIS", "⚠ Cannot reach Jarvis server. Is server.py running?");
+    addMessage("MARVIS", "⚠ Cannot reach Marvis server. Is server.py running?");
     setStatus("OFFLINE", "#ff1744");
   }
 }
@@ -115,7 +115,7 @@ function startListening() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    addMessage("JARVIS", "Speech recognition is not supported in this browser. Use Chrome.");
+    addMessage("MARVIS", "Speech recognition is not supported in this browser. Use Chrome.");
     return;
   }
 
@@ -140,7 +140,7 @@ function startListening() {
   };
 
   recognition.onerror = (event) => {
-    addMessage("JARVIS", `Mic error: ${event.error}`);
+    addMessage("MARVIS", `Mic error: ${event.error}`);
     setStatus("ONLINE");
   };
 
@@ -156,5 +156,5 @@ function startListening() {
 // ── Clear memory ──────────────────────────────────────────────────────────
 async function clearMemory() {
   await fetch(`${API}/memory/clear`, { method: "POST" });
-  addMessage("JARVIS", "Memory cleared. Starting fresh.");
+  addMessage("MARVIS", "Memory cleared. Starting fresh.");
 }

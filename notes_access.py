@@ -2,7 +2,7 @@ import os
 import platform
 from datetime import datetime
 
-NOTES_DIR = os.path.expanduser("~/JARVIS/notes")
+NOTES_DIR = os.path.expanduser("~/MARVIS/notes")
 
 def _is_mac():
     return platform.system() == "Darwin"

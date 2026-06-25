@@ -3,7 +3,7 @@ import chromadb
 from datetime import datetime
 
 # Initialize persistent chroma client
-DB_DIR = os.path.expanduser("~/JARVIS/chroma_data")
+DB_DIR = os.path.expanduser("~/MARVIS/chroma_data")
 if not os.path.exists(DB_DIR):
     os.makedirs(DB_DIR)
 

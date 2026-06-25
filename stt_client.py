@@ -17,7 +17,7 @@ class GroqSTT(BaseSTT):
         if not self.api_key or self.api_key == "your_groq_api_key_here":
             raise EnvironmentError(
                 "GROQ_API_KEY is missing or empty. "
-                "Please set it in your .env file before running Jarvis."
+                "Please set it in your .env file before running Marvis."
             )
             
         self.client = AsyncGroq(api_key=self.api_key)

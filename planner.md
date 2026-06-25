@@ -1,4 +1,4 @@
-You are an autonomous AI systems engineer. Build **JARVIS** – a cross‑platform voice AI assistant that runs on **both Windows and macOS** using only free or locally hosted AI models. No paid APIs, no Telegram bot.
+You are an autonomous AI systems engineer. Build **MARVIS** – a cross‑platform voice AI assistant that runs on **both Windows and macOS** using only free or locally hosted AI models. No paid APIs, no Telegram bot.
 
 ## Core Functionality (OS‑agnostic)
 - Voice input → STT → LLM → TTS → speaker output.
@@ -42,7 +42,7 @@ TTS_VOICE=                      # e.g., "Microsoft Hazel" on Windows, "Daniel" (
 
 # ── User settings ────────────────────────────────────
 USER_NAME=Sir
-JARVIS_DATA_DIR=~/JARVIS        # expanded per OS
+MARVIS_DATA_DIR=~/MARVIS        # expanded per OS
 
 LLM_PROVIDER=openrouter
 OPENROUTER_API_KEY=your_key_here
@@ -79,7 +79,7 @@ Create these modules, each detecting OS and using appropriate backend:
 
 ### `notes_access.py`
 - macOS: AppleScript (`tell application "Notes"`).
-- Windows: OneNote COM (if available) or fallback to local text files in `~/JARVIS/notes`.
+- Windows: OneNote COM (if available) or fallback to local text files in `~/MARVIS/notes`.
 - Exports: `get_recent_notes(n)`, `create_note(title, body)`.
 
 ### `actions.py`
@@ -88,7 +88,7 @@ Create these modules, each detecting OS and using appropriate backend:
 - Exports: `open_app(name)`, `open_terminal(command)`, `take_screenshot()`, `type_text(text)`.
 
 ### OS‑independent modules
-- `memory.py` – SQLite (tables for memories, tasks, notes with FTS5). Path: `os.path.expanduser("~/JARVIS/data/jarvis.db")`.
+- `memory.py` – SQLite (tables for memories, tasks, notes with FTS5). Path: `os.path.expanduser("~/MARVIS/data/marvis.db")`.
 - `browser.py` – Playwright (same on both).
 - `work_mode.py`, `planner.py` – unchanged, using the dynamic LLM client.
 - `server.py` – FastAPI + WebSocket endpoint `/ws`. Integrates all clients.
@@ -102,7 +102,7 @@ Create these modules, each detecting OS and using appropriate backend:
 
 ## Directory structure (cross‑platform)
 
-jarvis/
+marvis/
 ├── data/ # SQLite database
 ├── frontend/
 │ ├── src/
@@ -149,7 +149,7 @@ GROQ_API_KEY=your_groq_key
 
 # User
 USER_NAME=Sir
-JARVIS_DATA_DIR=~/JARVIS
+MARVIS_DATA_DIR=~/MARVIS
 
 fastapi uvicorn[standard] websockets python-dotenv
 openai                      # for OpenRouter

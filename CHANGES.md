@@ -1,8 +1,8 @@
-# Jarvis AI System Restructuring - DeepSeek V3 Integration
+# Marvis AI System Restructuring - DeepSeek V3 Integration
 
 ## Summary of Changes
 
-The Jarvis AI system has been fully restructured to use **DeepSeek V3** as the primary LLM with end-to-end autonomous operation. All operations except email are now handled exclusively by the LLM, eliminating keyword-based routing for specific actions.
+The Marvis AI system has been fully restructured to use **DeepSeek V3** as the primary LLM with end-to-end autonomous operation. All operations except email are now handled exclusively by the LLM, eliminating keyword-based routing for specific actions.
 
 ---
 
@@ -26,7 +26,7 @@ LLM_MAX_TOKENS: int = int(os.getenv("LLM_MAX_TOKENS", "2000"))
 
 New system prompt emphasizes autonomy and comprehensive capability:
 ```python
-SYSTEM_PROMPT = """You are Jarvis, an intelligent voice assistant powered by DeepSeek V3.
+SYSTEM_PROMPT = """You are Marvis, an intelligent voice assistant powered by DeepSeek V3.
 You are fully autonomous and capable of handling any user request intelligently:
 - Answer questions on any topic
 - Provide time, date, weather, and other information

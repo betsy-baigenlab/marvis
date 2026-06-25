@@ -1,5 +1,5 @@
 """
-Jarvis Flask backend — FULLY LLM-DRIVEN architecture
+Marvis Flask backend — FULLY LLM-DRIVEN architecture
 Run: python server.py
 Then open: http://localhost:5000
 """
@@ -21,7 +21,7 @@ from config import TIMEZONE
 app = Flask(__name__, static_folder="ui", static_url_path="")
 CORS(app)
 
-WAKE_WORD = "jarvis"
+WAKE_WORD = "marvis"
 
 
 def get_realtime_info() -> dict:
@@ -201,7 +201,7 @@ def system_info():
     info = get_realtime_info()
     
     return jsonify({
-        "system": "Jarvis AI",
+        "system": "Marvis AI",
         "status": "running",
         "version": "3.0 (100% LLM-Driven)",
         "model": "DeepSeek V3 via OpenRouter",
@@ -290,7 +290,7 @@ def get_time():
 if __name__ == "__main__":
     startup_info = get_realtime_info()
     print("\n" + "=" * 80)
-    print("[>>>] JARVIS AI - 100% LLM-DRIVEN ARCHITECTURE [<<<]")
+    print("[>>>] MARVIS AI - 100% LLM-DRIVEN ARCHITECTURE [<<<]")
     print("=" * 80)
     print(f"Server Time: {startup_info['time']} | Date: {startup_info['date']}")
     print(f"Timezone: {startup_info['timezone']}")

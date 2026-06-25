@@ -1,5 +1,5 @@
 """
-Jarvis AI Assistant — GUI
+Marvis AI Assistant — GUI
 Dark-themed Tkinter UI with chat display, mic status, and voice output.
 Run this instead of main.py for the GUI experience.
 """
@@ -30,7 +30,7 @@ FONT_CHAT   = ("Consolas", 11)
 FONT_TITLE  = ("Consolas", 18, "bold")
 FONT_STATUS = ("Consolas", 10)
 
-WAKE_WORD       = "jarvis"
+WAKE_WORD       = "marvis"
 ACTION_KEYWORDS = ["time", "date", "open", "search"]
 GMAIL_KEYWORDS  = ["email", "inbox", "mail", "messages"]
 
@@ -43,10 +43,10 @@ def route(command: str) -> str:
     return "llm"
 
 
-class JarvisUI:
+class MarvisUI:
     def __init__(self, root: tk.Tk):
         self.root = root
-        self.root.title("JARVIS — Personal AI Assistant")
+        self.root.title("MARVIS — Personal AI Assistant")
         self.root.configure(bg=BG)
         self.root.geometry("820x640")
         self.root.minsize(640, 480)
@@ -66,7 +66,7 @@ class JarvisUI:
         title_frame.pack(fill="x", padx=20, pady=(18, 0))
 
         tk.Label(
-            title_frame, text="◈ JARVIS", font=FONT_TITLE,
+            title_frame, text="◈ MARVIS", font=FONT_TITLE,
             fg=ACCENT, bg=BG
         ).pack(side="left")
 
@@ -96,7 +96,7 @@ class JarvisUI:
 
         # Tag colours
         self.chat.tag_config("user",    foreground="#aaaaaa")
-        self.chat.tag_config("jarvis",  foreground=BOT_CLR)
+        self.chat.tag_config("marvis",  foreground=BOT_CLR)
         self.chat.tag_config("system",  foreground="#555555")
         self.chat.tag_config("error",   foreground="#ff5252")
 
@@ -138,7 +138,7 @@ class JarvisUI:
 
     # ── Chat helpers ──────────────────────────────────────────────────────────
 
-    def _append(self, who: str, text: str, tag: str = "jarvis"):
+    def _append(self, who: str, text: str, tag: str = "marvis"):
         self.chat.configure(state="normal")
         self.chat.insert("end", f"{who}  ", tag)
         self.chat.insert("end", text + "\n\n", "user" if tag == "user" else tag)
@@ -151,9 +151,9 @@ class JarvisUI:
 
     # ── Response handler (text + voice) ──────────────────────────────────────
 
-    def _respond(self, text: str, tag: str = "jarvis"):
+    def _respond(self, text: str, tag: str = "marvis"):
         """Print to chat AND speak — always both."""
-        self._append("JARVIS »", text, tag)
+        self._append("MARVIS »", text, tag)
         threading.Thread(target=speak, args=(text,), daemon=True).start()
 
     # ── Process a command ─────────────────────────────────────────────────────
@@ -238,7 +238,7 @@ class JarvisUI:
     def _assistant_loop(self):
         # Greeting
         self._set_status("Starting...", ACCENT, ACCENT)
-        self._respond("Hello, I am Jarvis. How can I assist you?")
+        self._respond("Hello, I am Marvis. How can I assist you?")
         time.sleep(0.5)
 
         while self._running:
@@ -264,7 +264,7 @@ class JarvisUI:
 
 def main():
     root = tk.Tk()
-    app = JarvisUI(root)
+    app = MarvisUI(root)
     root.protocol("WM_DELETE_WINDOW", lambda: (setattr(app, "_running", False), root.destroy()))
     root.mainloop()
 

@@ -1,5 +1,5 @@
 """
-Conversation memory module for Jarvis.
+Conversation memory module for Marvis.
 Maintains a rolling in-memory window of the last 10 message turns (5 user + 5 assistant pairs).
 """
 

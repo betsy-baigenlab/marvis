@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JARVIS Assistant</title>
+    <title>MARVIS SDR Operations Command</title>
     <style>
       body {
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background-color: #000;
+        background-color: #050505;
         color: #fff;
         font-family: 'Inter', sans-serif;
       }
@@ -29,10 +29,94 @@
         height: 100vh;
         z-index: 2;
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
         pointer-events: none;
       }
+      
+      /* --- NEW SDR SIDEBAR --- */
+      #sidebar {
+        width: 320px;
+        height: 100%;
+        background: rgba(10, 15, 25, 0.6);
+        backdrop-filter: blur(15px);
+        border-right: 1px solid rgba(0, 229, 255, 0.2);
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        pointer-events: auto;
+        box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
+      }
+      
+      .brand {
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #00e5ff;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand::before {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: #00e5ff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #00e5ff;
+      }
+      
+      .agent-section-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+      }
+      
+      .agent-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .agent-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 15px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+      
+      .agent-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #444;
+        margin-right: 15px;
+        transition: all 0.3s ease;
+      }
+      
+      .agent-item.active {
+        background: rgba(0, 229, 255, 0.1);
+        border-color: rgba(0, 229, 255, 0.3);
+      }
+      
+      .agent-item.active .agent-indicator {
+        background: #00e5ff;
+        box-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
+      }
+      
+      /* --- MAIN CHAT AREA --- */
+      #main-area {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
       .top-bar {
         padding: 20px;
         display: flex;
@@ -81,15 +165,17 @@
       }
       .message.user {
         align-self: flex-end;
-        background: rgba(43, 138, 255, 0.4);
-        border: 1px solid rgba(43, 138, 255, 0.6);
+        background: rgba(43, 138, 255, 0.2);
+        border: 1px solid rgba(43, 138, 255, 0.4);
         border-bottom-right-radius: 4px;
+        color: #a0cfff;
       }
-      .message.jarvis {
+      .message.marvis {
         align-self: flex-start;
-        background: rgba(255, 255, 255, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(0, 229, 255, 0.1);
+        border: 1px solid rgba(0, 229, 255, 0.3);
         border-bottom-left-radius: 4px;
+        color: #fff;
       }
       .message.status {
         align-self: center;
@@ -100,8 +186,8 @@
         padding: 4px;
       }
       button {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         color: white;
         padding: 12px 24px;
         border-radius: 30px;
@@ -111,11 +197,13 @@
         transition: all 0.3s ease;
       }
       button:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(0, 229, 255, 0.2);
+        border-color: rgba(0, 229, 255, 0.5);
       }
       button.recording {
         background: rgba(255, 50, 50, 0.3);
         border-color: rgba(255, 50, 50, 0.5);
+        box-shadow: 0 0 15px rgba(255, 50, 50, 0.3);
       }
       .input-container {
         display: flex;
@@ -126,34 +214,706 @@
       }
       input[type="text"] {
         flex: 1;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         color: white;
         padding: 12px 20px;
         border-radius: 30px;
         font-size: 1rem;
         backdrop-filter: blur(10px);
         outline: none;
+        transition: all 0.3s ease;
+      }
+      input[type="text"]:focus {
+        border-color: rgba(0, 229, 255, 0.5);
+        background: rgba(0, 229, 255, 0.05);
       }
       input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+      
+      /* --- INTERACTIVE CARDS --- */
+      .interactive-card {
+        background: rgba(10, 20, 35, 0.5);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 10px;
+        width: 100%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+      }
+      .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #00e5ff;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      /* Multi-step processing list */
+      .process-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .process-step {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+      }
+      .process-step.active {
+        opacity: 1;
+      }
+      .process-step.completed {
+        opacity: 0.8;
+      }
+      .step-icon {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .step-spinner {
+        border: 2px solid rgba(0, 229, 255, 0.1);
+        border-top: 2px solid #00e5ff;
+        border-radius: 50%;
+        width: 14px;
+        height: 14px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .step-check {
+        color: #00ff66;
+        font-weight: bold;
+      }
+      
+      /* Prospects Table */
+      .prospect-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 0.9rem;
+      }
+      .prospect-table th, .prospect-table td {
+        padding: 8px 12px;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      .prospect-table th {
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+      }
+      .prospect-table tr:hover td {
+        background: rgba(0, 229, 255, 0.05);
+        color: #fff;
+      }
+      .score-badge {
+        background: rgba(0, 255, 102, 0.1);
+        color: #00ff66;
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 255, 102, 0.2);
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+      
+      /* Metric Dashboard */
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 10px;
+      }
+      .metric-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 12px 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+      .metric-card:hover {
+        border-color: rgba(0, 229, 255, 0.3);
+        background: rgba(0, 229, 255, 0.02);
+      }
+      .metric-value {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #fff;
+        margin-top: 5px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+      .metric-label {
+        font-size: 0.75rem;
         color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .metric-value.cyan { color: #00e5ff; text-shadow: 0 0 10px rgba(0, 229, 255, 0.3); }
+      .metric-value.green { color: #00ff66; text-shadow: 0 0 10px rgba(0, 255, 102, 0.3); }
+      .metric-value.purple { color: #d500f9; text-shadow: 0 0 10px rgba(213, 0, 249, 0.3); }
+      .metric-value.gold { color: #ffd600; text-shadow: 0 0 10px rgba(255, 214, 0, 0.3); }
+
+      /* Action Buttons */
+      .card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      .card-btn {
+        flex: 1;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 229, 255, 0.3);
+        background: rgba(0, 229, 255, 0.05);
+        color: #00e5ff;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .card-btn:hover {
+        background: rgba(0, 229, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+      }
+      .card-btn.secondary {
+        border-color: rgba(255, 255, 255, 0.1);
+        background: transparent;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .card-btn.secondary:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff;
+      }
+      
+      /* Campaign Sequence */
+      .sequence-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        position: relative;
+        padding-left: 20px;
+        margin-top: 10px;
+      }
+      .sequence-steps::before {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 8px;
+        bottom: 8px;
+        width: 2px;
+        background: rgba(0, 229, 255, 0.2);
+      }
+      .sequence-step {
+        position: relative;
+      }
+      .sequence-step::before {
+        content: '';
+        position: absolute;
+        left: -19px;
+        top: 6px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #00e5ff;
+        border: 2px solid #050505;
+        box-shadow: 0 0 8px #00e5ff;
+      }
+      
+      /* --- SIDEBAR AGENT STYLES --- */
+      #sidebar {
+        width: 320px;
+        height: 100%;
+        background: rgba(10, 15, 25, 0.7);
+        backdrop-filter: blur(15px);
+        border-right: 1px solid rgba(0, 229, 255, 0.2);
+        padding: 25px 15px;
+        display: flex;
+        flex-direction: column;
+        pointer-events: auto;
+        box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
+        box-sizing: border-box;
+        overflow-y: auto;
+      }
+      .brand {
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #00e5ff;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+      }
+      .brand::before {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background: #00e5ff;
+        border-radius: 50%;
+        box-shadow: 0 0 10px #00e5ff, 0 0 20px #00e5ff;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0% { transform: scale(0.9); opacity: 0.8; }
+        50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 15px #00e5ff, 0 0 25px #00e5ff; }
+        100% { transform: scale(0.9); opacity: 0.8; }
+      }
+      
+      .agent-section-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: rgba(0, 229, 255, 0.6);
+        letter-spacing: 1.5px;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+      .agent-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .agent-item {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 12px 14px;
+        transition: all 0.3s ease;
+      }
+      .agent-item:hover {
+        border-color: rgba(0, 229, 255, 0.2);
+        background: rgba(0, 229, 255, 0.02);
+      }
+      .agent-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+      .agent-name-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .agent-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #333;
+        transition: all 0.3s ease;
+      }
+      .agent-name {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .agent-status {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.4);
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+      .agent-meta {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 8px;
+      }
+      .agent-progress-container {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .agent-progress-bar {
+        width: 0%;
+        height: 100%;
+        background: #00e5ff;
+        box-shadow: 0 0 8px #00e5ff;
+        transition: width 0.3s ease;
+      }
+      
+      /* Active Agent State */
+      .agent-item.active {
+        background: rgba(0, 229, 255, 0.07);
+        border-color: rgba(0, 229, 255, 0.3);
+      }
+      .agent-item.active .agent-indicator {
+        background: #00e5ff;
+        box-shadow: 0 0 8px #00e5ff, 0 0 15px #00e5ff;
+        animation: pulseFast 1s infinite;
+      }
+      .agent-item.active .agent-status {
+        color: #00e5ff;
+        font-weight: 600;
+      }
+      @keyframes pulseFast {
+        0% { transform: scale(0.9); opacity: 0.8; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.8; }
+      }
+      
+      /* Telemetry Log console */
+      #telemetry-log {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(0, 229, 255, 0.1);
+        border-radius: 6px;
+        padding: 10px;
+        font-family: 'Consolas', monospace;
+        font-size: 0.7rem;
+        color: #00ff66;
+        height: 120px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .log-line {
+        line-height: 1.3;
+        word-wrap: break-word;
+      }
+      .log-line.error { color: #ff5252; }
+      .log-line.system { color: #00e5ff; }
+
+      /* --- CONNECTION GRAPH STYLES --- */
+      .connection-graph {
+        margin-top: 15px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+      .base-link {
+        stroke: rgba(255, 255, 255, 0.05);
+        stroke-width: 2px;
+        fill: none;
+      }
+      .pulse-link {
+        stroke: #00e5ff;
+        stroke-width: 2px;
+        fill: none;
+        stroke-dasharray: 6, 6;
+        stroke-dashoffset: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .pulse-link.active {
+        opacity: 1;
+        animation: dash 1s linear infinite;
+      }
+      .pulse-link.completed {
+        opacity: 0.5;
+        stroke: #00ff66;
+        stroke-dasharray: none;
+      }
+      @keyframes dash {
+        to {
+          stroke-dashoffset: -12;
+        }
+      }
+      
+      .graph-node circle {
+        fill: #111;
+        stroke: rgba(255, 255, 255, 0.2);
+        stroke-width: 2px;
+        transition: all 0.3s ease;
+      }
+      .graph-node.master circle {
+        stroke: #00e5ff;
+        filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.4));
+      }
+      .graph-node.master.active circle {
+        animation: nodePulse 2s infinite;
+      }
+      @keyframes nodePulse {
+        0% { stroke-width: 2px; filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.4)); }
+        50% { stroke-width: 3px; filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.8)); }
+        100% { stroke-width: 2px; filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.4)); }
+      }
+      .graph-node.agent circle {
+        fill: #111;
+        stroke: rgba(255, 255, 255, 0.2);
+        stroke-width: 2px;
+      }
+      .graph-node.agent text {
+        fill: rgba(255, 255, 255, 0.6);
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+      .graph-node.agent.active circle {
+        stroke: #00e5ff;
+        fill: rgba(0, 229, 255, 0.1);
+        filter: drop-shadow(0 0 6px #00e5ff);
+      }
+      .graph-node.agent.active text {
+        fill: #00e5ff;
+        font-weight: 600;
+      }
+      .graph-node.agent.completed circle {
+        stroke: #00ff66;
+        fill: rgba(0, 255, 102, 0.1);
+        filter: drop-shadow(0 0 6px #00ff66);
+      }
+      .graph-node.agent.completed text {
+        fill: #00ff66;
+        font-weight: 600;
+      }
+      
+      /* --- MARVIS HUD RETICLE --- */
+      .marvis-hud-reticle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 480px;
+        height: 480px;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0.15;
+        scale: 0.95;
+        transition: opacity 0.5s ease, scale 0.5s ease;
+      }
+      .marvis-hud-reticle.active {
+        opacity: 0.5;
+        scale: 1.0;
+      }
+      
+      .hud-ring {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        box-sizing: border-box;
+      }
+      .outer-ring {
+        border-style: dashed;
+        border-width: 2px;
+        animation: rotateCW 30s linear infinite;
+      }
+      .inner-ring {
+        margin: 35px;
+        border-width: 1px;
+        border-color: rgba(0, 229, 255, 0.35);
+        border-style: solid;
+        border-right-color: transparent;
+        border-left-color: transparent;
+        animation: rotateCCW 20s linear infinite;
+      }
+      .inner-ring::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        border-radius: 50%;
+        border: 1px dashed rgba(0, 229, 255, 0.1);
+      }
+      
+      /* Crosshair */
+      .hud-crosshair {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+      }
+      .hud-crosshair::before, .hud-crosshair::after {
+        content: '';
+        position: absolute;
+        background: rgba(0, 229, 255, 0.25);
+      }
+      .hud-crosshair::before {
+        left: 0;
+        right: 0;
+        top: 49%;
+        height: 2%;
+      }
+      .hud-crosshair::after {
+        top: 0;
+        bottom: 0;
+        left: 49%;
+        width: 2%;
+      }
+      
+      /* Radar Sweep Line */
+      .hud-radar-sweep {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 50%;
+        background: conic-gradient(from 0deg, rgba(0, 229, 255, 0.08) 0deg, rgba(0, 229, 255, 0) 90deg);
+        animation: rotateCW 6s linear infinite;
+      }
+      
+      /* Rotations */
+      @keyframes rotateCW {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      @keyframes rotateCCW {
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
+      }
+      
+      /* Telemetry Info overlay on HUD */
+      .hud-telemetry {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'Consolas', monospace;
+        font-size: 0.65rem;
+        color: rgba(0, 229, 255, 0.6);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .hud-data-line {
+        letter-spacing: 1.5px;
+        text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
       }
     </style>
   </head>
   <body>
-    <div id="canvas-container"></div>
-    <div id="ui-layer">
-      <div class="top-bar">
-        <button id="settings-btn">Settings</button>
-      </div>
-      <div id="chat-container"></div>
-      <div class="bottom-bar">
-        <div class="input-container">
-          <input type="text" id="text-input" placeholder="Message Jarvis..." autocomplete="off" />
-          <button id="send-btn">Send</button>
-          <button id="mic-btn">🎤 Listen</button>
+    <div id="canvas-container">
+      <div class="marvis-hud-reticle" id="hud-reticle">
+        <div class="hud-ring outer-ring"></div>
+        <div class="hud-ring inner-ring"></div>
+        <div class="hud-crosshair"></div>
+        <div class="hud-radar-sweep"></div>
+        <div class="hud-telemetry">
+          <div class="hud-data-line">SYS.STATUS: ONLINE</div>
+          <div class="hud-data-line">LINK.GRID: STABLE</div>
+          <div class="hud-data-line" id="hud-agent-log">SDR.INIT: TRUE</div>
         </div>
       </div>
+    </div>
+    <div id="ui-layer">
+      
+      <!-- SDR WORKFORCE SIDEBAR -->
+      <div id="sidebar">
+        <div class="brand">MARVIS SDR OPS</div>
+        
+        <div class="agent-section-title">Workforce Telemetry</div>
+        
+        <div class="agent-list">
+          <!-- Research Agent -->
+          <div class="agent-item" id="agent-research">
+            <div class="agent-header">
+              <div class="agent-name-wrap">
+                <div class="agent-indicator"></div>
+                <span class="agent-name">Research Agent</span>
+              </div>
+              <span class="agent-status" id="status-research">Idle</span>
+            </div>
+            <div class="agent-meta">🔍 1,250 Companies Analyzed</div>
+            <div class="agent-progress-container">
+              <div class="agent-progress-bar" id="progress-research"></div>
+            </div>
+          </div>
+
+          <!-- ICP Scoring Agent -->
+          <div class="agent-item" id="agent-icp">
+            <div class="agent-header">
+              <div class="agent-name-wrap">
+                <div class="agent-indicator"></div>
+                <span class="agent-name">ICP Scoring Agent</span>
+              </div>
+              <span class="agent-status" id="status-icp">Idle</span>
+            </div>
+            <div class="agent-meta">📊 342 Qualified Matches</div>
+            <div class="agent-progress-container">
+              <div class="agent-progress-bar" id="progress-icp"></div>
+            </div>
+          </div>
+
+          <!-- Contact Discovery Agent -->
+          <div class="agent-item" id="agent-contact">
+            <div class="agent-header">
+              <div class="agent-name-wrap">
+                <div class="agent-indicator"></div>
+                <span class="agent-name">Contact Discovery Agent</span>
+              </div>
+              <span class="agent-status" id="status-contact">Idle</span>
+            </div>
+            <div class="agent-meta">👤 120 Emails Enriched</div>
+            <div class="agent-progress-container">
+              <div class="agent-progress-bar" id="progress-contact"></div>
+            </div>
+          </div>
+
+          <!-- Outreach Agent -->
+          <div class="agent-item" id="agent-outreach">
+            <div class="agent-header">
+              <div class="agent-name-wrap">
+                <div class="agent-indicator"></div>
+                <span class="agent-name">Outreach Agent</span>
+              </div>
+              <span class="agent-status" id="status-outreach">Idle</span>
+            </div>
+            <div class="agent-meta">✉️ 15 active sequences</div>
+            <div class="agent-progress-container">
+              <div class="agent-progress-bar" id="progress-outreach"></div>
+            </div>
+          </div>
+
+          <!-- CRM Agent -->
+          <div class="agent-item" id="agent-crm">
+            <div class="agent-header">
+              <div class="agent-name-wrap">
+                <div class="agent-indicator"></div>
+                <span class="agent-name">CRM Agent</span>
+              </div>
+              <span class="agent-status" id="status-crm">Idle</span>
+            </div>
+            <div class="agent-meta">💾 Last Sync: Just now</div>
+            <div class="agent-progress-container">
+              <div class="agent-progress-bar" id="progress-crm"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="agent-section-title" style="margin-top: 25px;">Live Telemetry Log</div>
+        <div id="telemetry-log">
+          <div class="log-line system">[SYSTEM] MARVIS workforce ready.</div>
+        </div>
+      </div>
+
+      <!-- MAIN AREA -->
+      <div id="main-area">
+        <div class="top-bar">
+          <button id="settings-btn">Settings</button>
+        </div>
+        <div id="chat-container"></div>
+        <div class="bottom-bar">
+          <div class="input-container">
+            <input type="text" id="text-input" placeholder="Give an instruction to Marvis..." autocomplete="off" />
+            <button id="send-btn">Send</button>
+            <button id="mic-btn">🎤 Listen</button>
+          </div>
+        </div>
+      </div>
+      
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

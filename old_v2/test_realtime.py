@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test script to verify real-time time functionality in Jarvis AI.
+Test script to verify real-time time functionality in Marvis AI.
 Tests that the system returns accurate, current time for India (IST).
 """
 
@@ -12,7 +12,7 @@ from config import TIMEZONE
 def test_realtime_time():
     """Test that real-time time information is generated correctly."""
     print("=" * 70)
-    print("JARVIS AI - REAL-TIME SYSTEM TEST")
+    print("MARVIS AI - REAL-TIME SYSTEM TEST")
     print("=" * 70)
     
     # Test 1: Get current time info

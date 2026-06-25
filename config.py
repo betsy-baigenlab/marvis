@@ -7,7 +7,7 @@ OPENROUTER_API_KEY: str = os.getenv("OPENROUTER_API_KEY", "")
 if not OPENROUTER_API_KEY:
     raise EnvironmentError(
         "OPENROUTER_API_KEY is missing or empty. "
-        "Please set it in your .env file before running Jarvis."
+        "Please set it in your .env file before running Marvis."
     )
 
 MIC_DEVICE: int = int(os.getenv("MIC_DEVICE", "1"))

@@ -6,7 +6,7 @@ import memory
 import gmail
 import time
 
-WAKE_WORD = "jarvis"
+WAKE_WORD = "marvis"
 
 ACTION_KEYWORDS = ["time", "date", "open", "search"]
 GMAIL_KEYWORDS = ["email", "inbox", "mail", "messages"]
@@ -23,11 +23,11 @@ def route(command: str) -> str:
 
 
 def main():
-    speak("Hello, I am Jarvis. How can I assist you?")
+    speak("Hello, I am Marvis. How can I assist you?")
 
     while True:
         try:
-            # Wait until Jarvis finishes speaking
+            # Wait until Marvis finishes speaking
             while is_speaking:
                 time.sleep(0.1)
 

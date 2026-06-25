@@ -194,7 +194,7 @@ html, body {
 /* Messages */
 .msg { display: flex; flex-direction: column; gap: 4px; max-width: 78%; }
 
-.jarvis-msg { align-self: flex-start; }
+.marvis-msg { align-self: flex-start; }
 .user-msg   { align-self: flex-end; }
 
 .msg-label {
@@ -203,7 +203,7 @@ html, body {
   color: var(--dim);
   padding: 0 4px;
 }
-.jarvis-msg .msg-label { color: var(--cyan); }
+.marvis-msg .msg-label { color: var(--cyan); }
 .user-msg   .msg-label { text-align: right; color: var(--purple); }
 
 .bubble {
@@ -214,7 +214,7 @@ html, body {
   border: 1px solid var(--border);
 }
 
-.jarvis-msg .bubble {
+.marvis-msg .bubble {
   background: rgba(0, 229, 255, 0.04);
   border-color: rgba(0, 229, 255, 0.2);
   color: var(--text);

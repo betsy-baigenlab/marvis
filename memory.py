@@ -1,8 +1,8 @@
 import sqlite3
 import os
 
-DB_DIR = os.path.expanduser("~/JARVIS/data")
-DB_PATH = os.path.join(DB_DIR, "jarvis.db")
+DB_DIR = os.path.expanduser("~/MARVIS/data")
+DB_PATH = os.path.join(DB_DIR, "marvis.db")
 
 def init_db():
     if not os.path.exists(DB_DIR):

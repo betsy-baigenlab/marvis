@@ -2,29 +2,29 @@ export class WebSocketClient {
   private ws: WebSocket | null = null;
   private url: string;
   private onTranscript: (text: string) => void;
-  private onJarvisText: (text: string) => void;
-  private onJarvisDone?: (fullText?: string) => void;
-  private onJarvisStatus?: (status: string) => void;
+  private onMarvisText: (text: string) => void;
+  private onMarvisDone?: (fullText?: string) => void;
+  private onMarvisStatus?: (status: string) => void;
 
   constructor(
     url: string, 
     onTranscript: (text: string) => void,
-    onJarvisText: (text: string) => void,
-    onJarvisDone?: (fullText?: string) => void,
-    onJarvisStatus?: (status: string) => void
+    onMarvisText: (text: string) => void,
+    onMarvisDone?: (fullText?: string) => void,
+    onMarvisStatus?: (status: string) => void
   ) {
     this.url = url;
     this.onTranscript = onTranscript;
-    this.onJarvisText = onJarvisText;
-    this.onJarvisDone = onJarvisDone;
-    this.onJarvisStatus = onJarvisStatus;
+    this.onMarvisText = onMarvisText;
+    this.onMarvisDone = onMarvisDone;
+    this.onMarvisStatus = onMarvisStatus;
   }
 
   connect() {
     this.ws = new WebSocket(this.url);
     
     this.ws.onopen = () => {
-      console.log('Connected to JARVIS server');
+      console.log('Connected to MARVIS server');
     };
     
     this.ws.onmessage = (event) => {
@@ -33,13 +33,13 @@ export class WebSocketClient {
         if (data.type === 'transcript') {
           this.onTranscript(data.content);
         } else if (data.type === 'status') {
-          if (this.onJarvisStatus) this.onJarvisStatus(data.content);
+          if (this.onMarvisStatus) this.onMarvisStatus(data.content);
         } else if (data.type === 'text') {
-          this.onJarvisText(data.content);
+          this.onMarvisText(data.content);
         } else if (data.type === 'done') {
-          console.log("Jarvis finished generating.");
-          if (this.onJarvisDone) {
-              this.onJarvisDone(data.full_text);
+          console.log("Marvis finished generating.");
+          if (this.onMarvisDone) {
+              this.onMarvisDone(data.full_text);
           }
         }
       } catch (e) {
